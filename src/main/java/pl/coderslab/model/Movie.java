@@ -3,11 +3,60 @@ package pl.coderslab.model;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "movies")
 public class Movie {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    long id;
     private String overview;
     private String orginalTitle;
     private String date;
     private String posterURL;
+    private Boolean watched;
+    private Boolean toWatch;
+
+    public Movie() {
+    }
+
+    @Override
+    public String toString() {
+        return "Movie{" +
+                "id=" + id +
+                ", overview='" + overview + '\'' +
+                ", orginalTitle='" + orginalTitle + '\'' +
+                ", date='" + date + '\'' +
+                ", posterURL='" + posterURL + '\'' +
+                ", watched=" + watched +
+                ", toWatch=" + toWatch +
+                '}';
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public Boolean getWatched() {
+        return watched;
+    }
+
+    public void setWatched(Boolean watched) {
+        this.watched = watched;
+    }
+
+    public Boolean getToWatch() {
+        return toWatch;
+    }
+
+    public void setToWatch(Boolean toWatch) {
+        this.toWatch = toWatch;
+    }
 
     public String getOverview() {
         return overview;

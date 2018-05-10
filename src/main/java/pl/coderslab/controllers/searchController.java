@@ -1,16 +1,20 @@
 package pl.coderslab.controllers;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import pl.coderslab.model.JsonReader;
 import pl.coderslab.model.Movie;
+import pl.coderslab.repository.MovieRepository;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,6 +24,9 @@ import static pl.coderslab.model.JsonReader.readJsonFromUrl;
 
 @Controller
 public class searchController {
+    @Autowired
+    MovieRepository movieRepository;
+
     @GetMapping("/search")
     public String useSearch(){
     return "searchForm";
@@ -56,10 +63,29 @@ public class searchController {
                 movieList.add(currentMovie);
             }
             model.addAttribute("movies", movieList);
+            model.addAttribute("movieToAdd", new Movie());
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         return "resultMovie";
+    }
+    @PostMapping("/addToWatch")
+    public String addToWatchToDB(@Valid Movie movie, BindingResult result){
+        movie.setToWatch(true);
+        movie.setWatched(false);
+        movie.setOverview("Sprawdz na stronie!");
+        System.out.println(movie);
+        movieRepository.save(movie);
+        return "redirect:movieSearch";
+    }
+    @PostMapping("/addWatched")
+    public String setWatchedToDB(@Valid Movie movie, BindingResult result){
+        movie.setToWatch(false);
+        movie.setWatched(true);
+        movie.setOverview("Sprawdz na stronie!");
+        System.out.println(movie);
+        movieRepository.save(movie);
+        return "redirect:movieSearch";
     }
 }

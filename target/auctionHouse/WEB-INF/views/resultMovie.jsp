@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html>
 <head>
     <title>Result of Movie Search</title>
@@ -67,8 +68,22 @@
                         <div class="col-md-6">
                             <h4>${movie.orginalTitle}</h4>
                             <p><strong>Data publikacji: </strong>${movie.date}</p>
-                            <button class="btn btn-primary pull-right">Do Obejrzenia</button>
-                            <button class="btn btn-primary pull-right">Obejrzany</button>
+                                <%--@elvariable id="movieToAdd" type="pl.coderslab.model.Movie"--%>
+                            <form:form method="post" action="addToWatch" modelAttribute="movieToAdd">
+                                <form:hidden path="orginalTitle" name="originalTitle" value="${movie.orginalTitle}"/>
+                                <form:hidden path="posterURL" name="posterUrl" value="${movie.posterURL}"/>
+                                <form:hidden path="date" name="date" value="${movie.date}"/>
+                                <form:hidden path="overview" name="title" value="${movie.overview}"/>
+                                <button type="submit" class="btn btn-primary pull-right">Do Obejrzenia</button>
+                            </form:form>
+                                <%--@elvariable id="movieToAdd" type="pl.coderslab.model.Movie"--%>
+                            <form:form method="post" action="addWatched" modelAttribute="movieToAdd">
+                                <form:hidden path="orginalTitle" name="originalTitle" value="${movie.orginalTitle}"/>
+                                <form:hidden path="posterURL" name="posterUrl" value="${movie.posterURL}"/>
+                                <form:hidden path="date" name="date" value="${movie.date}"/>
+                                <form:hidden path="overview" name="title" value="${movie.overview}"/>
+                                <button type="submit" class="btn btn-primary pull-right">Obejrzane</button>
+                            </form:form>
                         </div>
                     </div><!-- row -->
                 </div><!-- well -->
